@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var sqlite3 = require('sqlite3').verbose();
 var app = express();
+const PORT = process.env.PORT || 4040;
 
 //Allow all requests from all domains & localhost
 app.all('/*', function(req, res, next) {
@@ -15,13 +16,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 // 連接到 SQLite 資料庫
-var db = new sqlite3.Database('./MoneyNote.db', (err) => {
-    if (err) {
-        console.error('Error opening database: ' + err.message);
-    } else {
-        console.log('Connected to the MoneyNote SQLite database.');
-    }
-});
+// var db = new sqlite3.Database('./MoneyNote.db', (err) => {
+//     if (err) {
+//         console.error('Error opening database: ' + err.message);
+//     } else {
+//         console.log('Connected to the MoneyNote SQLite database.');
+//     }
+// });
 
 // 測試資料
 let data = {
@@ -39,20 +40,21 @@ let data = {
   };
 
 // 設定網址GET路徑
-app.get('/moneynote', function(req, res) {
+app.get('*', function(req, res) {
     console.log("GET From SERVER");
-    db.all('SELECT * FROM MoneyNoteTable', [], (err, rows) => {
-        if (err) {
-            console.error(err.message);
-            res.status(500).send("Error fetching MoneyNoteTable");
-        } else {       
-            var formatData = transformData(rows);     
-            res.send(formatData);
-        }
-    });
+    // db.all('SELECT * FROM MoneyNoteTable', [], (err, rows) => {
+    //     if (err) {
+    //         console.error(err.message);
+    //         res.status(500).send("Error fetching MoneyNoteTable");
+    //     } else {       
+    //         var formatData = transformData(rows);     
+    //         res.send(formatData);
+    //     }
+    // });
 });
 
-app.listen(6060, () => {
+app.listen(PORT, function (err) {
+    if (err) console.log(err);
     console.log("Server is running on port");
 });
 
