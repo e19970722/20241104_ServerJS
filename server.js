@@ -2,18 +2,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var sqlite3 = require('sqlite3').verbose();
 var app = express();
-const PORT = process.env.PORT || 4040;
+const PORT = 4000;
 
-//Allow all requests from all domains & localhost
-app.all('/*', function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Accept");
-  res.header("Access-Control-Allow-Methods", "POST, GET");
-  next();
-});
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
 
 // 連接到 SQLite 資料庫
 // var db = new sqlite3.Database('./MoneyNote.db', (err) => {
@@ -40,7 +30,7 @@ let data = {
   };
 
 // 設定網址GET路徑
-app.get('*', function(req, res) {
+app.get('/home', function(req, res) {
     console.log("GET From SERVER");
     // db.all('SELECT * FROM MoneyNoteTable', [], (err, rows) => {
     //     if (err) {
